@@ -1,5 +1,6 @@
 package es.marcmauri.notifications;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -44,6 +45,36 @@ public class NotificationHandler extends ContextWrapper {
             getManager().createNotificationChannel(highChannel);
             getManager().createNotificationChannel(lowChannel);
         }
+    }
+
+    public Notification.Builder createNotification(String title, String message, boolean isHighImportance) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (isHighImportance) {
+                return this.createNotificationWithChannel(title, message, CHANNEL_HIGH_ID);
+            }
+            return this.createNotificationWithChannel(title, message, CHANNEL_LOW_ID);
+        }
+        return this.createNotificationWithoutChannel(title, message);
+    }
+
+    private Notification.Builder createNotificationWithChannel(String title, String message, String channelID) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return new Notification.Builder(getApplicationContext(), channelID)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setSmallIcon(android.R.drawable.stat_notify_chat)
+                    .setAutoCancel(true);
+        }
+        // Si la version es < 26, deberia llamar al createNotificationWITHOUTchannel(...)
+        return null;
+    }
+
+    private Notification.Builder createNotificationWithoutChannel(String title, String message) {
+        return new Notification.Builder(getApplicationContext())
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setAutoCancel(true);
     }
 
 }
