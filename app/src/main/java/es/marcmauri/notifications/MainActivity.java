@@ -40,6 +40,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendNotification() {
-        Toast.makeText(this, "Working", Toast.LENGTH_SHORT).show();
+        //
     }
 }
