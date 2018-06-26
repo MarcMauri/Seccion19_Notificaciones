@@ -1,14 +1,12 @@
 package es.marcmauri.notifications;
 
 import android.app.Notification;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import butterknife.BindString;
 import butterknife.BindView;
