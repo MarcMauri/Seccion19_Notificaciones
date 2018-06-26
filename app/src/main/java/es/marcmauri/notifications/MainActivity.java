@@ -18,15 +18,22 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.editTextTitle) EditText editTextTitle;
-    @BindView(R.id.editTextMessage) EditText editTextMessage;
-    @BindView(R.id.switchImportance) Switch switchImportance;
+    @BindView(R.id.editTextTitle)
+    EditText editTextTitle;
+    @BindView(R.id.editTextMessage)
+    EditText editTextMessage;
+    @BindView(R.id.switchImportance)
+    Switch switchImportance;
 
-    @BindString(R.string.switch_notifications_on) String switchTextOn;
-    @BindString(R.string.switch_notifications_off) String switchTextOff;
+    @BindString(R.string.switch_notifications_on)
+    String switchTextOn;
+    @BindString(R.string.switch_notifications_off)
+    String switchTextOff;
 
     private boolean isHighImportance = false;
     private NotificationHandler notificationHandler;
+
+    private int counter = 0;    // Identificador mock para las multiples notificaciones
 
 
     @Override
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(message)) {
             Notification.Builder nb = notificationHandler.createNotification(title, message, isHighImportance);
-            notificationHandler.getManager().notify(1, nb.build());
+            notificationHandler.getManager().notify(++counter, nb.build());
         }
     }
 }
