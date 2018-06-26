@@ -19,6 +19,8 @@ public class NotificationHandler extends ContextWrapper {
     private final String CHANNEL_HIGH_NAME = "HIGH CHANNEL";
     public static final String CHANNEL_LOW_ID = "2";
     private final String CHANNEL_LOW_NAME = "LOW CHANNEL";
+    private final int SUMMARY_GROUP_ID = 1001;
+    private final String SUMMARY_GRUP_NAME = "GROUPING_NOTIFICATION";   // Para versiones con canal
     private int counter = 0;
 
     public NotificationHandler(Context context) {
@@ -94,6 +96,7 @@ public class NotificationHandler extends ContextWrapper {
                     //.addAction(action)
                     .setColor(getColor(R.color.colorPrimary))
                     .setSmallIcon(android.R.drawable.stat_notify_chat)
+                    .setGroup(SUMMARY_GRUP_NAME)
                     .setAutoCancel(true);
         }
         // Si la version es < 26, deberia llamar al createNotificationWITHOUTchannel(...)
@@ -106,6 +109,18 @@ public class NotificationHandler extends ContextWrapper {
                 .setContentText(message)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setAutoCancel(true);
+    }
+
+    public void publishNotificationSummaryGroup(boolean isHighImportance) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = (isHighImportance) ? CHANNEL_HIGH_ID : CHANNEL_LOW_ID;
+            Notification summaryNotification = new Notification.Builder(getApplicationContext(), channelId)
+                    .setSmallIcon(android.R.drawable.stat_notify_call_mute)
+                    .setGroup(SUMMARY_GRUP_NAME)
+                    .setGroupSummary(true)
+                    .build();
+            getManager().notify(SUMMARY_GROUP_ID, summaryNotification);
+        }
     }
 
 }
